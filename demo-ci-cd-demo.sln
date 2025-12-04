@@ -8,8 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demo-ci-cd-demo.Tests", "de
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5759A041-D962-432D-B47E-B673242D6039}"
 	ProjectSection(SolutionItems) = preProject
-		azure-logicapp-demo.deploy.json = azure-logicapp-demo.deploy.json
-		azure-logicapp-demo.deploy.parameters.json = azure-logicapp-demo.deploy.parameters.json
+		src\azure-logicapp-demo.deploy.json = src\azure-logicapp-demo.deploy.json
+		src\azure-logicapp-demo.deploy.parameters.json = src\azure-logicapp-demo.deploy.parameters.json
 	EndProjectSection
 EndProject
 Global
