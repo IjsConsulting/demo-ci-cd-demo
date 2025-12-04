@@ -1,0 +1,85 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"LogicAppName": {
+			"defaultValue": "la-ijs-demo-001",
+			"type": "String"
+		},
+		"LogicAppLocation": {
+			"defaultValue": "uksouth",
+			"type": "String"
+		}
+	},
+	"variables": {},
+	"resources": [
+		{
+			"type": "Microsoft.Logic/workflows",
+			"apiVersion": "2017-07-01",
+			"name": "[parameters('LogicAppName')]",
+			"location": "[parameters('LogicAppLocation')]",
+			"properties": {
+				"state": "Enabled",
+				"definition": {
+					"$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {
+						"$connections": {
+							"defaultValue": {},
+							"type": "Object"
+						}
+					},
+					"triggers": {
+						"When_an_HTTP_request_is_received": {
+							"type": "Request",
+							"kind": "Http",
+							"inputs": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"FirstName": {
+											"type": "string"
+										},
+										"LastName": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"actions": {
+						"Compose": {
+							"runAfter": {},
+							"type": "Compose",
+							"inputs": {
+								"FirstName": "Jon",
+								"FullName": "@concat(triggerBody()?['FirstName'], ' ',triggerBody()?['LastName'])",
+								"LastName": "Snow"
+							}
+						},
+						"Response": {
+							"runAfter": {
+								"Compose": [
+									"Succeeded"
+								]
+							},
+							"type": "Response",
+							"kind": "Http",
+							"inputs": {
+								"statusCode": 200,
+								"body": "@outputs('Compose')"
+							}
+						}
+					},
+					"outputs": {}
+				},
+				"parameters": {
+					"$connections": {
+						"value": {}
+					}
+				}
+			}
+		}
+	]
+}
