@@ -1,10 +1,16 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.0.11222.15 d18.0
+VisualStudioVersion = 18.0.11222.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{1139E486-A36B-6B58-4965-3753D45010A4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demo-ci-cd-demo.Tests", "demo-ci-cd-demo.Tests\demo-ci-cd-demo.Tests.csproj", "{9F6ED684-2587-4D7C-B75C-60989C5477F4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7AF42FF3-4D62-4B00-A52D-1FC8FE1B7678}"
+	ProjectSection(SolutionItems) = preProject
+		azure-logicapp-demo,deploy.json = azure-logicapp-demo,deploy.json
+		azure-logicapp-demo,deployparameters..json = azure-logicapp-demo,deployparameters..json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

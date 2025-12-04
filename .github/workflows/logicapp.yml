@@ -1,0 +1,68 @@
+#Name of the GitHub Action
+name: Deploy Logic App
+
+#Set the action on which the workflow will trigger
+on:
+ push:
+  branches:
+   - main
+
+env:
+ AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}    
+
+concurrency:
+ group: 'logic-app-deployment'
+ cancel-in-progress: true    
+ 
+jobs:
+ validate-and-deploy:
+  name: 'Validate and Deploy Logic App'
+  runs-on: ubuntu-latest
+  env:
+   RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
+   LOGIC_APP_NAME: ${{ secrets.LOGIC_APP_NAME }}
+
+  steps:
+  - name: Checkout Repository
+    uses: actions/checkout@main
+    
+#Use the azure provided action to log on to azure using service pricipal
+  - name: login to Azure
+    uses: azure/login@v1
+    with:
+     creds: ${{ env.AZURE_CREDENTIALS }}  
+
+# Create the resource group
+  - name: Create Resource Group
+    run: |
+       az group create --name $RESOURCE_GROUP --location uksouth 
+
+#Validate the  ARM template
+  - name: Validate ARM templae
+    run: |
+       az deployment group validate --resource-group $RESOURCE_GROUP --template-file ./logicapp/logicapp-template.json --parameters ./logicapp/logicapp-parameters.json
+
+#Deploy the ARM Template
+  - name: Deploy Logic App using ARM template
+    run: |
+       echo "::set-env name=logicappurl::$(az deployment group create -g az-logicapp-githubactions-demo-rg --template-file ./src/Deployment/azure-logicapp-demo.deploy.json --parameters ./src/Deployment/azure-logicapp-demo.deploy.parameters.json --query 'properties.outputs.logicAppUrl.value' -o tsv)"
+    shell: bash
+
+# Log Out From Azure 
+  - name: Logout
+    run: az logout
+
+
+# Install Node.js environment
+  - name: set up node
+    uses: actions/setup-node@v1
+    with:
+     node-version: '12.x'
+
+# Install newman
+  - name: Install newman
+    run: npm install -g newman
+
+  - name: Run Postman collection
+    run: |
+         newman run ./src/Test/logicapp-githubactions-test-collection.j
