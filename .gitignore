@@ -6,3 +6,7 @@
 /.vs/demo-ci-cd-demo
 /.vs/demo-ci-cd-demo.slnx
 *.sqlite
+/TestResults
+/WebApplication1/bin/Debug/net10.0
+/demo-ci-cd-demo.Tests
+/.vs

@@ -40,7 +40,7 @@ jobs:
 #Validate the  ARM template
   - name: Validate ARM templae
     run: |
-       az deployment group validate --resource-group $RESOURCE_GROUP --template-file ./logicapp/logicapp-template.json --parameters ./logicapp/logicapp-parameters.json
+       az deployment group validate --resource-group $RESOURCE_GROUP --template-file ./src/azure-logicapp-demo.deploy.json --parameters ./src/azure-logicapp-demo.deploy.parameters.json
 
 #Deploy the ARM Template
   - name: Deploy Logic App using ARM template
