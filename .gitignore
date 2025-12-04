@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/WebApplication1/obj
+/.vs/demo-ci-cd-demo
+/.vs/demo-ci-cd-demo.slnx
+*.sqlite
